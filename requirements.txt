@@ -1,0 +1,9 @@
+opencv-python
+deepface
+pyotp
+cs50
+flask
+flask-session
+flask-wtf
+werkzeug
+gunicorn
