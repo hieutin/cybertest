@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    otp check
+{% endblock %}
+{% block main %}
+    <div>
+        <h1>otp_check</h1>
+        <form action="/otpcheck" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="otp" placeholder="otp"
+                    type="text">
+            </div>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+{% endblock %}

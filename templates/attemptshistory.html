@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex align-items-center w-100 justify-content-center">
+        <h2 class="card-title p-5 flex-grow-1 text-center" style="margin-left:120px">attempts_history</h2>
+    </div>
+    <div class="table-responsive" style="overflow: auto; max-height: 580px">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">attempt_id</th>
+                    <th scope="col">title</th>
+                    <th scope="col">score</th>
+                    <th scope="col">duration</th>
+                    <th scope="col">date_created</th>
+                    <th scope="col">question_set_id</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attempt in attempts_history %}
+                <tr>
+                    <td>{{attempt['attempt_id']}}</td>
+                    <td>{{attempt['attempt_title']}}</td>
+                    <td>{{attempt['score']}}</td>
+                    <td>{{attempt['attempt_duration']}}</td>
+                    <td>{{attempt['date_created']}}</td>
+                    <td>{{attempt['question_set_id']}}</td>
+                    <td>{{attempt['attempt_user_id']}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3"></td>
+                    <td class="border-0"></td>
+                </tr>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3"></td>
+                    <td class="border-0"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

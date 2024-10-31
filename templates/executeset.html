@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="static/executeset.css" rel="stylesheet">
+        <title>Test</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            // Wait for DOM content to load
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.option').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Remove 'selected' class from all sibling buttons
+                        this.parentElement.querySelectorAll('.option').forEach(btn => btn.classList.remove('selected'));
+                        document.querySelectorAll('.option').forEach(btn => btn.style.backgroundColor = '#d9edff');
+                        // Add 'selected' class to the clicked button
+                        this.classList.add('selected');
+                        document.querySelectorAll('.selected').forEach(btn => btn.style.backgroundColor = 'Green');
+                    });
+                });
+
+                document.getElementById('quizForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting normally
+
+                    let score = 0;
+                    let minutes = 0;
+
+                    fetch('/remaining_time')
+                    .then(response => response.json())
+                    .then(data => {
+                        minutes = Math.floor(data.remaining_time_in_seconds / 60);
+                    })
+
+                    let duration = parseInt("{{ set_duration }}") - minutes;
+                    let title = "{{ set_title }}";
+                    let id = "{{set_id}}";
+                    
+                    document.querySelectorAll('.selected').forEach(button => {
+                        console.log(button);
+                        if (button.dataset.correct === 'True') {
+                            score++;
+                        }
+                    });
+
+                    document.getElementById('title').value = title;
+                    document.getElementById('score').value = score;
+                    document.getElementById('duration').value = duration;
+                    document.getElementById('question_set_id').value = id;
+
+                    document.getElementById('resultSubmitForm').submit();
+                });
+            });
+
+            // Create a function to update the timer
+            function updateRemainingTime() {
+                fetch('/remaining_time')
+                .then(response => response.json())
+                .then(data => {
+                    let minutes = Math.floor(data.remaining_time_in_seconds / 60);
+                    let seconds = Math.floor(data.remaining_time_in_seconds % 60);
+
+                    if (seconds <= 0 && minutes <= 0) {
+                        document.getElementById('quizForm').dispatchEvent(new Event('submit', { cancelable: true }));
+                    }
+
+                    if (seconds < 10 && seconds >= 0) {
+                        seconds = "0" + seconds;
+                    }
+
+                    let remainingTimeElement = document.getElementById("remaining_time");
+                    remainingTimeElement.innerText = `${minutes}:${seconds}`;
+                    document.getElementById("remaining_time").innerText = minutes + ":" + seconds;
+                })
+            }
+            setInterval(updateRemainingTime, 500);
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>{{ set_title }}</h1>
+            <h1 id="remaining_time"></h1>
+        </div>
+        <div class="container">
+            <form id="quizForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {% for question in question_set %}
+                <div class="section">
+                    <h3>{{ question['question'] }}</h3>
+                    <button type="button" class="option" data-correct="{{ question['option_one'] == question['right_option'] }}">{{ question['option_one'] }}</button>
+                    <button type="button" class="option" data-correct="{{ question['option_two'] == question['right_option'] }}">{{ question['option_two'] }}</button>
+                    <button type="button" class="option" data-correct="{{ question['option_three'] == question['right_option'] }}">{{ question['option_three'] }}</button>
+                    <button type="button" class="option" data-correct="{{ question['option_four'] == question['right_option'] }}">{{ question['option_four'] }}</button>
+                </div>
+                {% endfor %}
+                <div class="section"><button type="submit">Submit</button></div>
+            </form>
+            <form id="resultSubmitForm" action="/attemptshistory" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="title" name="title" value="">
+                <input type="hidden" id="score" name="score" value="">
+                <input type="hidden" id="duration" name="duration" value="">
+                <input type="hidden" id="question_set_id" name="question_set_id" value="">
+            </form>
+        </div>
+    </body>
+</html>

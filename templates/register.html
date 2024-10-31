@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <h2 class="card-title p-5">Register</h2>
+    <form action="/register" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="username" placeholder="Username"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-25" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-25" name="confirmation" placeholder="Confirm Password" type="password">
+        </div>
+        <button class="btn btn-primary p-2" style="width:10%" type="submit">Register</button>
+    </form>
+{% endblock %}

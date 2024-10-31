@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex align-items-center w-100 justify-content-center">
+        <h2 class="card-title p-5 flex-grow-1 text-center" style="margin-left:120px">question_sets</h2>
+    </div>
+    <div class="table-responsive" style="overflow: auto; max-height: 580px">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">question_id</th>
+                    <th scope="col">question</th>
+                    <th scope="col">option_one</th>
+                    <th scope="col">option_two</th>
+                    <th scope="col">option_three</th>
+                    <th scope="col">option_four</th>
+                    <th scope="col">right_option</th>
+                    <th scope="col">question_type</th>
+                    <th scope="col">score</th>
+                    <th scope="col">question_set_id</th>
+                    <th scope="col">action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{question['question_id']}}</td>
+                    <td>{{question['question']}}</td>
+                    <td>{{question['option_one']}}</td>
+                    <td>{{question['option_two']}}</td>
+                    <td>{{question['option_three']}}</td>
+                    <td>{{question['option_four']}}</td>
+                    <td>{{question['right_option']}}</td>
+                    <td>{{question['question_type']}}</td>
+                    <td>{{question['score']}}</td>
+                    <td>{{question['question_set_id']}}</td>
+                    <td>
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input name="question_id" type="hidden" value="{{question['question_id']}}">
+                            <input name="question_set_id" type="hidden" value="{{question['question_set_id']}}">
+                            <button class="btn btn-primary p-2" type="submit">Delete question</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3">Test</td>
+                    <td class="border-0"></td>
+                </tr>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3">Test</td>
+                    <td class="border-0"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

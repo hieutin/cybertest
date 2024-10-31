@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex align-items-center w-100 justify-content-center">
+        <h2 class="card-title p-5 flex-grow-1 text-center" style="margin-left:120px">question_sets</h2>
+    </div>
+    <div class="table-responsive" style="overflow: auto; max-height: 580px">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">question_set_id</th>
+                    <th scope="col">title</th>
+                    <th scope="col">total_question</th>
+                    <th scope="col">total_score</th>
+                    <th scope="col">duration</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">set_type</th>
+                    <th scope="col">action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question_set in question_sets %}
+                <tr>
+                    <td>{{question_set['question_set_id']}}</td>
+                    <td>{{question_set['title']}}</td>
+                    <td>{{question_set['total_question']}}</td>
+                    <td>{{question_set['total_score']}}</td>
+                    <td>{{question_set['duration']}}</td>
+                    <td>{{question_set['user_id']}}</td>
+                    <td>{{question_set['set_type']}}</td>
+                    <td>
+                        <form action="/executeset" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input name="question_set_id" type="hidden" value="{{question_set['question_set_id']}}">
+                            <button class="btn btn-primary p-2" type="submit">Execute Set</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3"></td>
+                    <td class="border-0"></td>
+                </tr>
+                <tr>
+                    <td class="border-0 fw-bold" colspan="3"></td>
+                    <td class="border-0"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

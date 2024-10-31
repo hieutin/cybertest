@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    add_question_set
+{% endblock %}
+
+{% block main %}
+    <h2 class="card-title p-5">add_question_set</h2>
+    <form action="/addquestionset" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="title" placeholder="title"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="total_question" placeholder="total_question"
+                type="number">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="total_score" placeholder="total_score"
+                type="number">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="duration" placeholder="duration"
+                type="number">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="set_type" placeholder="set_type"
+                type="text">
+        </div>
+        <button class="btn btn-primary p-2" style="width:10%" type="submit">Add Question Set</button>
+    </form>
+{% endblock %}

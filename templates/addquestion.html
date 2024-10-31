@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <h2 class="card-title p-5">add_question</h2>
+    <form action="/addquestion" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="question" placeholder="question"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="option_one" placeholder="option_one"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="option_two" placeholder="option_two"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="option_three" placeholder="option_three"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="option_four" placeholder="option_four"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="right_option" placeholder="right_option"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="question_type" placeholder="question_type"
+                type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="score" placeholder="score"
+                type="number">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-25" name="question_set_id" placeholder="question_set_id"
+                type="number">
+        </div>
+        <button class="btn btn-primary p-2" style="width:10%" type="submit">Add Question</button>
+    </form>
+{% endblock %}
