@@ -7,3 +7,4 @@ flask-session
 flask-wtf
 werkzeug
 gunicorn
+tf-keras
